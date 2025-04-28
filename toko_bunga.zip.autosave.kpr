@@ -1,0 +1,16 @@
+[Free ZIP Password Recovery Project Data]
+Version Created=3.70.69
+EncryptedFile=D:\BIT-PROJECTS\bit.shopflower\toko_bunga.zip
+CurrentPass=b6k
+CharsSLatin=1
+CharsCLatin=0
+CharsSpace=0
+CharsDigits=1
+CharsSymbols=0
+CharsCustom=0
+Charset=abcdefghijklmnopqrstuvwxyz0123456789
+RecoveryType=1
+MinPassLen=1
+MaskChar=?
+Mask=
+Dictionary=C:\Program Files (x86)\Free ZIP Password Recovery\default_english.kpd
