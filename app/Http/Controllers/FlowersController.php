@@ -60,7 +60,10 @@ class FlowersController extends Controller
                 "price" => 'Rp ' . number_format($record->price, 0, ',', '.'),
                 "images" => '<img src="' . asset('assets/images/product/' . $record->images) . '" width="60">',
                 "status" => $record->status == 1 ? 'Aktif' : 'Tidak Aktif',
-                "action" => '<a href="#" class="btn btn-sm btn-primary">Edit</a>'
+                "action" => '
+                <a href="#" onclick="CrudFlowers(\'Edit\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
+                 <a href="#" onclick="CrudFlowers(\'Delete\',\'' . $record->id . '\')" class="ml-1 btn btn-sm btn-danger">Delete</a>
+                '
             ];
         }
 
@@ -70,6 +73,13 @@ class FlowersController extends Controller
             "recordsFiltered" => $totalRecordswithFilter,
             "data" => $data_arr
         ]);
+    }
+
+    public function jsonDetail(Request $req)
+    {
+        $id = $req->id;
+        $data = Flowers::where('id', $id)->get();
+        return response()->json(['success' => true, 'data' => $data]);
     }
 
 

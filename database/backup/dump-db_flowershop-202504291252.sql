@@ -31,6 +31,7 @@ CREATE TABLE `tbl_mst_flowers` (
   `created_by` varchar(100) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_by` varchar(100) DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +42,7 @@ CREATE TABLE `tbl_mst_flowers` (
 
 LOCK TABLES `tbl_mst_flowers` WRITE;
 /*!40000 ALTER TABLE `tbl_mst_flowers` DISABLE KEYS */;
-INSERT INTO `tbl_mst_flowers` VALUES (1,'Pink Rose',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(2,'Peach Rose',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(3,'Red Rose',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(4,'Pink Rose',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(5,'Soft Pink Gompie',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(6,'White Pompom',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(7,'Sunflower',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(8,'Yellow Pompom',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(9,'Purple Carnation',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(10,'Pink Carnation',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(11,'White Lisianthus',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL),(12,'Purple Carnation',10000,NULL,'2025-04-29 13:00:00.000','system',NULL,NULL);
+INSERT INTO `tbl_mst_flowers` VALUES (1,'Pink Rose',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(2,'Peach Rose',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(3,'Red Rose',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(4,'Pink Rose',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(5,'Soft Pink Gompie',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(6,'White Pompom',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(7,'Sunflower',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(8,'Yellow Pompom',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(9,'Purple Carnation',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(10,'Pink Carnation',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(11,'White Lisianthus',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL),(12,'Purple Carnation',10000,'Berry Bouquets 3.jpg','2025-04-29 13:00:00.000','system',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tbl_mst_flowers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +284,7 @@ CREATE TABLE `tbl_sys_menu` (
 
 LOCK TABLES `tbl_sys_menu` WRITE;
 /*!40000 ALTER TABLE `tbl_sys_menu` DISABLE KEYS */;
-INSERT INTO `tbl_sys_menu` VALUES ('MN-1','0','0','*','Dashboard','fa fa-home','dashboard',1,0,1,0,0),('MN-2','1','1','*','Master Data','fas fa-cubes','base',1,0,0,0,0),('MN-2A','2','2','MN-2','Supplier','-','supplier',1,1,1,1,1),('MN-2B','2','2','MN-2','Units','-','units',1,1,1,1,1),('MN-2C','2','2','MN-2','Category','-','category',1,1,1,1,1),('MN-2D','2','2','MN-2','Part Material','-','part',1,1,1,1,1),('MN-3','1','1','*','Stock','fas fa-layer-group','proc',1,0,0,0,0),('MN-3A','2','2','MN-3','Upload Safe Stock','-','entrystock',1,1,1,1,0),('MN-3B','2','2','MN-3','Monitor Stock','-','monitorStock',1,0,1,0,0),('MN-4','1','1','*','Tools','fas fa-cog','tools',1,0,0,0,0),('MN-4A','2','2','MN-4','Roles','-','roles',1,1,1,1,1),('MN-4B','2','2','MN-4','Users','-','users',1,1,1,1,1);
+INSERT INTO `tbl_sys_menu` VALUES ('MN-1','0','0','*','Dashboard','fa fa-home','dashboard',1,0,1,0,0),('MN-2','1','1','*','Master Data','fas fa-cubes','base',1,0,0,0,0),('MN-2A','2','2','MN-2','Flowers','-','flower',1,1,1,1,1),('MN-2B','2','2','MN-2','Flowers Type','-','units',1,1,1,1,1),('MN-2C','2','2','MN-2','Product Type','-','category',1,1,1,1,1),('MN-2D','2','2','MN-2','Product','-','part',1,1,1,1,1),('MN-3','1','1','*','Stock','fas fa-layer-group','proc',1,0,0,0,0),('MN-3A','2','2','MN-3','Upload Safe Stock','-','entrystock',1,1,1,1,0),('MN-3B','2','2','MN-3','Monitor Stock','-','monitorStock',1,0,1,0,0),('MN-4','1','1','*','Tools','fas fa-cog','tools',1,0,0,0,0),('MN-4A','2','2','MN-4','Roles','-','roles',1,1,1,1,1),('MN-4B','2','2','MN-4','Users','-','users',1,1,1,1,1);
 /*!40000 ALTER TABLE `tbl_sys_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -555,4 +556,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29  8:59:51
+-- Dump completed on 2025-04-29 12:52:27

@@ -20,7 +20,7 @@
             <div class="row">
                 <!-- Modal Ends -->
                 <div class="text-center mb-2">
-                    <button type="button" onclick="CrudFlowers('Create','*')" class="btn btn-primary btn-sm">Tambah Data <i class="fa fa-plus"></i></button>
+                    <button type="button" onclick="CrudFlowers('Create','*')" class="btn btn-primary btn-sm">Create Data <i class="fa fa-plus"></i></button>
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
@@ -36,19 +36,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2012/08/03</td>
-                                    <td>Edinburgh</td>
-                                    <td>New York</td>
-                                    <td>
-                                        <label class="badge badge-small badge-info">On hold</label>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-success">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -63,23 +50,68 @@
 
     <script>
         function CrudFlowers(action, id) {
+            document.getElementById("CrudFormFlowers").reset();
             var act = action.toLowerCase();
+            $("#CrudAction").val(act);
+            const input = document.getElementById('images');
+            const preview = document.getElementById('previewImage');
+
+            input.value = ''; // Hapus file dari input
+            preview.src = '#';
+            preview.style.display = 'none'; // Sembunyikan preview
+
             switch (act) {
                 case 'create':
                     $('#CrudModalFlowersLabel').text('Create Flower');
                     $('#CrudModalFlowers').modal('show');
                     break;
                 case 'edit':
+                    getDetail(id);
                     $('#CrudModalFlowersLabel').text('Edit Flower');
                     $('#CrudModalFlowers').modal('show');
                     break;
                 case 'delete':
+                    getDetail(id);
+                    $("#CrudFormFlowers :input").each(function() {
+                        var typeOfObject = $(this).prop('tagName');
+                        switch (typeOfObject) {
+                            case "SELECT":
+                                $(this).attr("disabled", true);
+                                break;
+                            case "INPUT":
+                                $(this).attr("readonly", true);
+                                break;
+                            case "TEXTAREA":
+                                $(this).attr("readonly", true);
+                                break;
+                        }
+                    });
                     $('#CrudModalFlowersLabel').text('Delete Flower');
                     $('#CrudModalFlowers').modal('show');
                     break;
                 default:
                     console.log('Invalid action');
             }
+        }
+
+        function getDetail(id) {
+            $.ajax({
+                url: "{{ url('flowerJsonDetail') }}/" + id,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var results = data.data;
+                    results.forEach(res => {
+                        $('#name_flower').val(res.name_flower);
+                        $('#price').val(res.price);
+                        $('#previewImage').attr('src', "{{ asset('assets/images/product') }}/" + res.images);
+                        console.log("{{ asset('assets/images/product') }}/" + res.images)
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
         }
 
         $(document).ready(function() {
@@ -117,6 +149,20 @@
                         searchable: false
                     }
                 ]
+            });
+
+            document.getElementById('images').addEventListener('change', function(event) {
+                const input = event.target;
+                const preview = document.getElementById('previewImage');
+
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
             });
         })
     </script>

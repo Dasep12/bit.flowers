@@ -56,6 +56,7 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     // FLOWERS MASTER 
     Route::get('/flower', [FlowersController::class, 'index']);
     Route::get('/flowerJson', [FlowersController::class, 'jsonFlowersList']);
+    Route::get('/flowerJsonDetail/{id}', [FlowersController::class, 'jsonDetail']);
 });
 
 
