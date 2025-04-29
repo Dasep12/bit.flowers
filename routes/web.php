@@ -6,10 +6,12 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\DenyController;
+use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,12 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     Route::post('/jsonCrudUser', [UsersController::class, 'jsonCrudUser']);
     Route::get('/jsonListRoles', [UsersController::class, 'jsonListRoles']);
     Route::get('/jsonDetailListUserMenu', [UsersController::class, 'jsonDetailListUserMenu']);
+
+
+
+    // FLOWERS MASTER 
+    Route::get('/flower', [FlowersController::class, 'index']);
+    Route::get('/flowerJson', [FlowersController::class, 'jsonFlowersList']);
 });
 
 

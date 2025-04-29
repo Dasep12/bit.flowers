@@ -15,7 +15,10 @@ class DashboardController extends Controller
     //
     public function index()
     {
-        return view("dashboard.index_v3");
+        $data = [
+            'title' => 'Flowers'
+        ];
+        return view("dashboard.index", $data);
     }
 
     public function jsonAllPart()

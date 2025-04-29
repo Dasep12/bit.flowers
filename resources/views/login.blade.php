@@ -1,115 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/samples/login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:53 GMT -->
+
 <head>
-    <meta charset="UTF-8">
-    <title>Supplier Portal | Bonecom Tricom</title>
-    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="{{ asset('assets/img/logo_rel.png')}}" type="image/x-icon" />
-
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/css/atlantis.min.css')}}">
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
-    <script>
-        WebFont.load({
-            google: {
-                "families": ["Lato:300,400,700,900"]
-            },
-            custom: {
-                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
-                urls: ['../assets/css/fonts.min.css']
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>
-
-    <!--   Core JS Files   -->
-    <script src="{{ asset('assets/js/core/jquery.3.2.1.min.js')}}"></script>
-    <script src="{{ asset('assets/js/core/popper.min.js')}}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js')}}"></script>
-
-    <!-- Bootstrap Notify -->
-    <script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
-
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/font-awesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.addons.css')}}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
 </head>
 
 <body>
-    <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-        <div class="card card0 border-0">
-            <div class="row d-flex">
-                <div class="col-lg-6">
-                    <div class="card1 pb-5">
-                        <div class="row">
-                            <img src="../assets/img/bonecom.png" class="logo">
-                        </div>
-                        <div class="row">
-                            <a class="title_app text-sm" for="">Supplier Portal v.1.0</a>
-                        </div>
-                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-                            <img src="../assets/img/factory-cartoon.png" class="image">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <form action="" id="formLogin">
-                        @csrf
-                        <div class="card2 card border-0 px-4 py-5 mt-4">
-                            <div class="row mb-4 px-3">
-                                <h6 class="mb-0 mr-4 mt-2"></h6>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+                <div class="row flex-grow">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                        <div class="auth-form-transparent text-left p-3">
+                            <div class="brand-logo">
+                                <img src="{{ asset('assets/images/logo.svg')}}" alt="logo">
                             </div>
-                            <div class="row px-3 mb-4">
-                                <div class="line"></div>
-                                <small class="or text-center">Sign in </small>
-                                <div class="line"></div>
-                            </div>
-                            <div class="row px-3">
-                                <label class="mb-1">
-                                    <h6 class="mb-0 text-sm">User Name</h6>
-                                </label>
-                                <input class="mb-4" type="text" name="username" placeholder="Enter username">
-                            </div>
-                            <div class="row px-3">
-                                <label class="mb-1">
-                                    <h6 class="mb-0 text-sm">Password</h6>
-                                </label>
-                                <input type="password" name="password" placeholder="Enter password">
-                            </div>
-                            <div class="row px-3 mb-4">
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input id="chk1" type="checkbox" name="chk" class="custom-control-input">
-                                    <label for="chk1" class="custom-control-label text-sm">Remember me</label>
+                            <h4>Welcome back!</h4>
+                            <h6 class="font-weight-light">Happy to see you again!</h6>
+                            <form id="formLogin" method="post" class="pt-3">
+                                @csrf()
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <span class="input-group-text bg-transparent border-right-0">
+                                                <i class="fa fa-user text-primary"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control form-control-lg border-left-0" name="username" id="username" placeholder="Username">
+                                    </div>
                                 </div>
-                                <a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a>
-                            </div>
-                            <div class="row mb-3 px-3">
-                                <button type="submit" class="btn btn-blue text-center">Login</button>
-                            </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <span class="input-group-text bg-transparent border-right-0">
+                                                <i class="fa fa-lock text-primary"></i>
+                                            </span>
+                                        </div>
+                                        <input name="password" type="password" class="form-control form-control-lg border-left-0" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="my-2 d-flex justify-content-between align-items-center">
+                                    <div class="form-check">
+                                        <label class="form-check-label text-muted">
+                                            <input type="checkbox" class="form-check-input">
+                                            Keep me signed in
+                                        </label>
+                                    </div>
+                                    <a href="#" class="auth-link text-black">Forgot password?</a>
+                                </div>
+                                <div class="my-3">
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="">LOGIN</button>
+                                </div>
+                                <div class="mb-2 d-flex">
+                                    <!-- <button type="button" class="btn btn-facebook auth-form-btn flex-grow mr-1">
+                                        <i class="fab fa-facebook-f mr-2"></i>Facebook
+                                    </button>
+                                    <button type="button" class="btn btn-google auth-form-btn flex-grow ml-1">
+                                        <i class="fab fa-google mr-2"></i>Google
+                                    </button> -->
+                                </div>
+                                <div class="text-center mt-4 font-weight-light">
+                                    Don't have an account? <a href="register-2.html" class="text-primary">Create</a>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-
-                <div class="col-lg-12">
-                    <div id="ErrorInfo">
-
+                    </div>
+                    <div class="col-lg-6 login-half-bg d-flex flex-row">
+                        <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2018 All rights reserved.</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-blue py-4">
-                <div class="row px-3">
-                    <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2024. All rights reserved.</small>
-                    <div class="social-contact ml-4 ml-sm-auto">
-                    </div>
-                </div>
-            </div>
+            <!-- content-wrapper ends -->
         </div>
+        <!-- page-body-wrapper ends -->
     </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js')}}">
+    </script>
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.addons.js')}}"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="{{ asset('assets/js/off-canvas.js')}}"></script>
+    <script src="{{ asset('assets/js/hoverable-collapse.js')}}"></script>
+    <script src="{{ asset('assets/js/misc.js')}}"></script>
+    <script src="{{ asset('assets/js/settings.js')}}"></script>
+    <script src="{{ asset('assets/js/todolist.js')}}"></script>
+    <!-- Bootstrap Notify -->
+    <script src="{{ asset('assets/js/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    <!-- endinject -->
 
     <script>
         function showToast(data, act, msg) {
@@ -178,5 +176,8 @@
         })
     </script>
 </body>
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/samples/login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:53 GMT -->
 
 </html>
