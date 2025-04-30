@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('flowers.partials.CrudFlowers')
+@include('flowersTypes.partials.CrudFlowerTypes')
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -21,17 +21,16 @@
             <div class="row">
                 <!-- Modal Ends -->
                 <div class="text-center mb-2">
-                    <button type="button" onclick="CrudFlowers('Create','*')" class="btn btn-primary btn-sm">Create Data <i class="fa fa-plus"></i></button>
+                    <button type="button" onclick="Crud('Create','*')" class="btn btn-primary btn-sm">Create Data <i class="fa fa-plus"></i></button>
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table id="DataTableFlowers" class="table">
+                        <table id="DataTableFlowerTypes" class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Images</th>
+                                    <th>Remarks</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -53,41 +52,34 @@
 
 
     <script>
-        function CrudFlowers(action, id) {
-            document.getElementById("CrudFormFlowers").reset();
+        function Crud(action, id) {
+            document.getElementById("CrudFormFlowerTypes").reset();
             var act = action.toLowerCase();
             $("#CrudAction").val(act);
-            const input = document.getElementById('images');
-            const preview = document.getElementById('previewImage');
             $("#id").val(id);
-            input.value = ''; // Hapus file dari input
-            preview.src = '#';
-            preview.style.display = 'none'; // Sembunyikan preview
 
             switch (act) {
                 case 'create':
                     disabledEnableForm(false);
                     $("#status").attr("checked", true)
-                    $('#CrudModalFlowersLabel').text('Create Flower');
-                    $('#CrudModalFlowers').modal('show');
+                    $('#CrudModalFlowerTypesLabel').text('Create Flower Types');
+                    $('#CrudModalFlowerTypes').modal('show');
                     break;
                 case 'update':
                     disabledEnableForm(false);
-
-
                     getDetail(id);
-                    $('#CrudModalFlowersLabel').text('Edit Flower');
+                    $('#CrudModalFlowerTypesLabel').text('Edit Flower Types');
                     setTimeout(function() {
-                        $('#CrudModalFlowers').modal('show');
-                    }, 400);
+                        $('#CrudModalFlowerTypes').modal('show');
+                    }, 300);
                     break;
                 case 'delete':
                     getDetail(id);
                     disabledEnableForm(true);
-                    $('#CrudModalFlowersLabel').text('Delete Flower');
+                    $('#CrudModalFlowerTypesLabel').text('Delete Flower Types');
                     setTimeout(function() {
-                        $('#CrudModalFlowers').modal('show');
-                    }, 400);
+                        $('#CrudModalFlowerTypes').modal('show');
+                    }, 300);
                     break;
                 default:
                     console.log('Invalid action');
@@ -96,23 +88,15 @@
 
         function getDetail(id) {
             $.ajax({
-                url: "{{ url('flowerJsonDetail') }}/" + id,
+                url: "{{ url('flowerTypes/jsonDetail') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
                     var results = data.data;
-                    const productImageBaseUrl = "{{ asset('assets/images/product') }}";
                     results.forEach(res => {
-
-                        $('#name_flower').val(res.name_flower);
-                        $('#price').val(res.price);
+                        $('#name_type').val(res.name_type);
+                        $('#remarks').val(res.remarks);
                         $("#status").attr("checked", res.status == 1 ? true : false);
-                        if (res.images) {
-                            const images = productImageBaseUrl + '/' + encodeURIComponent(res.images);
-                            $('#previewImage').attr('src', images);
-                        }
-                        const preview = document.getElementById('previewImage');
-                        preview.style.display = 'block';
                     });
                 },
                 error: function(xhr, status, error) {
@@ -122,7 +106,7 @@
         }
 
         function disabledEnableForm(act) {
-            $("#CrudFormFlowers :input").each(function() {
+            $("#CrudFormFlowerTypes :input").each(function() {
                 var typeOfObject = $(this).prop('tagName');
                 var type = $(this).attr("type");
                 switch (typeOfObject) {
@@ -146,11 +130,11 @@
         }
 
         $(document).ready(function() {
-            $('#DataTableFlowers').DataTable({
+            $('#DataTableFlowerTypes').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('flowerJson') }}", // pastikan rutenya valid
+                    url: "{{ url('flowerTypes/jsonDataTableList') }}", // pastikan rutenya valid
                     type: 'GET'
                 },
                 columns: [{
@@ -162,12 +146,8 @@
                         name: 'name'
                     },
                     {
-                        data: 'price',
-                        name: 'price'
-                    },
-                    {
-                        data: 'images',
-                        name: 'images'
+                        data: 'remarks',
+                        name: 'remarks'
                     },
                     {
                         data: 'status',
@@ -182,18 +162,5 @@
                 ]
             });
 
-            document.getElementById('images').addEventListener('change', function(event) {
-                const input = event.target;
-                const preview = document.getElementById('previewImage');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            });
         })
     </script>

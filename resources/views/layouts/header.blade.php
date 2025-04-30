@@ -37,11 +37,37 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="{{ asset('assets/js/modal-demo.js')}}"></script>
+
+    <script src="{{ asset('assets/js/toastDemo.js')}}"></script>
     <!-- End custom js for this page-->
 
+    <style>
+        #loaderOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(91, 33, 183, 0.8);
+            /* semi-transparent white */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 
+
+
 <body>
+    <div id="loaderOverlay">
+        <div class="flip-square-loader mx-auto"></div>
+    </div>
     <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar">

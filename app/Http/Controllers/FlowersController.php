@@ -15,6 +15,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
+use Illuminate\Support\Facades\Storage;
 
 class FlowersController extends Controller
 {
@@ -46,7 +47,7 @@ class FlowersController extends Controller
 
         // Fetch records
         $records = Flowers::where('name_flower', 'like', '%' . $searchValue . '%')
-            ->orderBy($columnName, $columnSortOrder)
+            ->orderBy($columnName, 'desc')
             ->skip($start)
             ->take($rowperpage)
             ->get();
@@ -58,10 +59,10 @@ class FlowersController extends Controller
                 "id" => $i++,
                 "name" => $record->name_flower,
                 "price" => 'Rp ' . number_format($record->price, 0, ',', '.'),
-                "images" => '<img src="' . asset('assets/images/product/' . $record->images) . '" width="60">',
+                "images" => $record->images != "" ? '<img src="' . asset('assets/images/product/' . $record->images) . '" width="60">' : '<img src="' . asset('assets/images/No_Image_Available.jpg') . '" width="60">',
                 "status" => $record->status == 1 ? 'Aktif' : 'Tidak Aktif',
                 "action" => '
-                <a href="#" onclick="CrudFlowers(\'Edit\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
+                <a href="#" onclick="CrudFlowers(\'Update\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
                  <a href="#" onclick="CrudFlowers(\'Delete\',\'' . $record->id . '\')" class="ml-1 btn btn-sm btn-danger">Delete</a>
                 '
             ];
@@ -84,61 +85,43 @@ class FlowersController extends Controller
 
 
 
-    public function jsonCrudPart(Request $req)
+    public function jsonCrudFlowers(Request $req)
     {
-        $act = $req->CrudActionPart;
+        $act = $req->CrudAction;
+        $imageName = null;
+        if ($req->hasFile('images')) {
+            $file = $req->file('images');
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $file->move(public_path('assets/images/product/'), $imageName);
+        }
         $data = [
-            "supplier_id"       => $req->supplier_id,
-            "category_id"       => $req->category_id,
-            'model'             => $req->model,
-            'uniq'              => $req->uniq,
-            'part_number'       => $req->part_number,
-            'part_name'         => $req->part_name,
-            'unit_id'           => $req->unit_id,
-            'units_id'          => $req->units_id,
-            'qtyPerUnit'        => $req->qtyPerUnit,
-            'volumePerDays'     => $req->volumePerDays,
-            'qtySafety'         => $req->qtySafety,
-            'safetyForDays'     => $req->safetyForDays,
-            'remarks'           => $req->remarks,
-            'forecast'          => $req->forecast,
-            "status_part"       => isset($req->status_part) ? 1 : 0,
-            'created_by'        => 1
+            "name_flower" => $req->name_flower,
+            "price" => $req->price,
+            "images" => $imageName,
+            "status" => isset($req->status) ? 1 : 0,
+            "created_at" => date('Y-m-d H:i:s'),
+            "created_by" => $req->session()->get('user_id'),
         ];
         switch (strtolower($act)) {
             case "create":
-                $cek = Part::where('uniq', $req->uniq);
-                if ($cek->count() > 0) {
-                    return response()->json(['success' => false, 'msg' => 'Uniq ' . $req->uniq . ' Has Been Existing']);
-                }
-                Part::Create($data);
+                Flowers::Create($data);
                 break;
             case "update":
-                $supp = Part::find($req->id);
-                $supp->supplier_id   = $req->supplier_id;
-                $supp->category_id   = $req->category_id;
-                $supp->model         = $req->model;
-                $supp->uniq          = $req->uniq;
-                $supp->part_number   = $req->part_number;
-                $supp->part_name     = $req->part_name;
-                $supp->unit_id       = $req->unit_id;
-                $supp->units_id      = $req->units_id;
-                $supp->qtyPerUnit    = $req->qtyPerUnit;
-                $supp->qtySafety     = $req->qtySafety;
-                $supp->volumePerDays = $req->volumePerDays;
-                $supp->safetyForDays = $req->safetyForDays;
-                $supp->remarks       = $req->remarks;
-                $supp->forecast       = $req->forecast;
-                $supp->status_part   = isset($req->status_part) ? 1 : 0;
+                $supp = Flowers::find($req->id);
+                $supp->name_flower = $req->name_flower;
+                if ($imageName) $supp->images = $imageName;
+                $supp->price = $req->price;
+                $supp->status = isset($req->status) ? 1 : 0;
                 $supp->save();
                 break;
             case "delete":
-                Part::where('id', $req->id)->delete();
+                Flowers::where('id', $req->id)->delete();
                 break;
         }
+
         try {
             DB::commit();
-            return response()->json(['success' => true, 'msg' => 'Successfully', 'data' => $req->part_name]);
+            return response()->json(['success' => true, 'msg' => 'Successfully', 'data' => $req->name_flower]);
         } catch (Exception $ex) {
             DB::rollBack();
             return response()->json(['success' => false, 'msg' => $ex->getMessage()]);

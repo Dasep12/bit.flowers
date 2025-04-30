@@ -2,11 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PartController;
 use App\Http\Controllers\DenyController;
 use App\Http\Controllers\FlowersController;
+use App\Http\Controllers\FlowerTypesController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
@@ -57,6 +55,14 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     Route::get('/flower', [FlowersController::class, 'index']);
     Route::get('/flowerJson', [FlowersController::class, 'jsonFlowersList']);
     Route::get('/flowerJsonDetail/{id}', [FlowersController::class, 'jsonDetail']);
+    Route::post('/jsonCrudFlower', [FlowersController::class, 'jsonCrudFlowers']);
+
+
+    // FLOWERS TYPE 
+    Route::get('/flowerTypes', [FlowerTypesController::class, 'index']);
+    Route::get('/flowerTypes/jsonDataTableList', [FlowerTypesController::class, 'jsonDataTableList']);
+    Route::get('/flowerTypes/jsonDetail/{id}', [FlowerTypesController::class, 'jsonDetail']);
+    Route::post('/flowerTypes/jsonCrud', [FlowerTypesController::class, 'jsonCrud']);
 });
 
 
