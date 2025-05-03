@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DenyController;
 use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\FlowerTypesController;
+use App\Http\Controllers\ProductTypesController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
@@ -63,6 +65,19 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     Route::get('/flowerTypes/jsonDataTableList', [FlowerTypesController::class, 'jsonDataTableList']);
     Route::get('/flowerTypes/jsonDetail/{id}', [FlowerTypesController::class, 'jsonDetail']);
     Route::post('/flowerTypes/jsonCrud', [FlowerTypesController::class, 'jsonCrud']);
+
+    // PRODUCT TYPE 
+    Route::get('/productTypes', [ProductTypesController::class, 'index']);
+    Route::get('/productTypes/jsonDataTableList', [ProductTypesController::class, 'jsonDataTableList']);
+    Route::get('/productTypes/jsonDetail/{id}', [ProductTypesController::class, 'jsonDetail']);
+    Route::post('/productTypes/jsonCrud', [ProductTypesController::class, 'jsonCrud']);
+
+
+    // PRODUCT 
+    Route::get('/product', [ProductController::class, 'index']);
+    Route::get('/product/jsonDataTableList', [ProductController::class, 'jsonDataTableList']);
+    Route::get('/product/jsonDetail/{id}', [ProductController::class, 'jsonDetail']);
+    Route::post('/product/jsonCrud', [ProductController::class, 'jsonCrud']);
 });
 
 

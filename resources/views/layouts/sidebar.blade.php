@@ -13,6 +13,7 @@ $url = request()->segment(1);
 $active = "";
 $actives = "";
 $show = "";
+
 ?>
 
 <!-- partial:../../partials/_sidebar.html -->
@@ -35,15 +36,15 @@ $show = "";
     </li>
     <?php
     foreach ($sidebar as $sd) : ?>
+
       @if($sd->MenuLevel == 0)
-      <li class="nav-item <?= $sd->MenuUrl == $url  ? 'active' : ''  ?>">
-        <a class="nav-link" href="{{ url($sd->MenuUrl) }}">
-          <i class="fa fa-home menu-icon"></i>
-          <span class="menu-title">Dashboard</span>
+      <li class="nav-item <?= $sd->MenuUrl == $url  ? 'active' : ''  ?>"">
+        <a class=" nav-link" href="{{ url($sd->MenuUrl) }}">
+        <i class="fa fa-puzzle-piece menu-icon"></i>
+        <span class="menu-title">{{ $sd->MenuName }}</span>
         </a>
       </li>
       @endif
-
       <?php
       $cekUrl = DB::table('vw_menu')
         ->where('MenuUrl', $url)
@@ -59,7 +60,7 @@ $show = "";
       @if($sd->MenuLevel == 1)
       <li class="nav-item {{ $active }}">
         <a class="nav-link" data-toggle="collapse" href="#{{ $sd->menu_id }}" aria-expanded="false" aria-controls="{{ $sd->menu_id }}">
-          <i class="fas fa-clipboard-list menu-icon"></i>
+          <i class="{{ $sd->MenuIcon }} menu-icon"></i>
           <span class="menu-title">{{ $sd->MenuName }}</span>
           <i class="menu-arrow"></i>
         </a>
@@ -72,7 +73,6 @@ $show = "";
               ->where('user_id', session()->get('user_id'))
               ->select('*')
               ->get();
-
             ?>
             <?php
             foreach ($childMenu as $ch) :
@@ -83,13 +83,15 @@ $show = "";
                 ->get();
               $actives = $cekUrls->count() > 0 ? 'active' : '';
             ?>
-              <li class="nav-item d-none d-lg-block {{ $actives }}"> <a class="nav-link" href="{{ url($ch->MenuUrl) }}">{{ $ch->MenuName }}</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url($ch->MenuUrl) }}">{{ $ch->MenuName }}</a>
+              </li>
             <?php endforeach ?>
+
           </ul>
         </div>
       </li>
       @endif
-
     <?php endforeach; ?>
   </ul>
 </nav>

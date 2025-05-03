@@ -14,9 +14,9 @@
         <!-- container-scroller -->
         <script>
            window.addEventListener("load", function() {
-              setTimeout(function() {
-                 document.getElementById("loaderOverlay").style.display = "none";
-              }, 100); // 2000 ms = 2 detik
+              //   setTimeout(function() {
+              //      document.getElementById("loaderOverlay").style.display = "none";
+              //   }, 100);
            });
         </script>
         </body>

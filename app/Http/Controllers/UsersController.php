@@ -20,7 +20,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        $data = [
+            'title' => 'Product'
+        ];
+        return view('users.index', $data);
     }
 
     public function jsonUsers(Request $req)

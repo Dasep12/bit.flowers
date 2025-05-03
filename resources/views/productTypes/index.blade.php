@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('flowersTypes.partials.Crud')
+@include('productTypes.partials.Crud')
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table id="DataTableFlowerTypes" class="table">
+                        <table id="DataTableProductTypes" class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -53,7 +53,7 @@
 
     <script>
         function Crud(action, id) {
-            document.getElementById("CrudFormFlowerTypes").reset();
+            document.getElementById("CrudFormProductTypes").reset();
             var act = action.toLowerCase();
             $("#CrudAction").val(act);
             $("#id").val(id);
@@ -62,23 +62,23 @@
                 case 'create':
                     disabledEnableForm(false);
                     $("#status").attr("checked", true)
-                    $('#CrudModalFlowerTypesLabel').text('Create Flower Types');
-                    $('#CrudModalFlowerTypes').modal('show');
+                    $('#CrudModalProductTypesLabel').text('Create Product Types');
+                    $('#CrudModalProductTypes').modal('show');
                     break;
                 case 'update':
                     disabledEnableForm(false);
                     getDetail(id);
-                    $('#CrudModalFlowerTypesLabel').text('Edit Flower Types');
+                    $('#CrudModalProductTypesLabel').text('Edit Product Types');
                     setTimeout(function() {
-                        $('#CrudModalFlowerTypes').modal('show');
+                        $('#CrudModalProductTypes').modal('show');
                     }, 300);
                     break;
                 case 'delete':
                     getDetail(id);
                     disabledEnableForm(true);
-                    $('#CrudModalFlowerTypesLabel').text('Delete Flower Types');
+                    $('#CrudModalProductTypesLabel').text('Delete Product Types');
                     setTimeout(function() {
-                        $('#CrudModalFlowerTypes').modal('show');
+                        $('#CrudModalProductTypes').modal('show');
                     }, 300);
                     break;
                 default:
@@ -88,7 +88,7 @@
 
         function getDetail(id) {
             $.ajax({
-                url: "{{ url('flowerTypes/jsonDetail') }}/" + id,
+                url: "{{ url('productTypes/jsonDetail') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -106,7 +106,7 @@
         }
 
         function disabledEnableForm(act) {
-            $("#CrudFormFlowerTypes :input").each(function() {
+            $("#CrudFormProductTypes :input").each(function() {
                 var typeOfObject = $(this).prop('tagName');
                 var type = $(this).attr("type");
                 switch (typeOfObject) {
@@ -130,11 +130,11 @@
         }
 
         $(document).ready(function() {
-            $('#DataTableFlowerTypes').DataTable({
+            $('#DataTableProductTypes').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('flowerTypes/jsonDataTableList') }}", // pastikan rutenya valid
+                    url: "{{ url('productTypes/jsonDataTableList') }}", // pastikan rutenya valid
                     type: 'GET'
                 },
                 columns: [{

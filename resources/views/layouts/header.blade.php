@@ -41,6 +41,14 @@
     <script src="{{ asset('assets/js/toastDemo.js')}}"></script>
     <!-- End custom js for this page-->
 
+
+    <!-- jQGrid -->
+    <script src="{{ asset('assets/jqgrid/js/jquery.jqGrid.min.js') }}"></script>
+    <script src="{{ asset('assets/jqgrid/js/i18n/grid.locale-en.js') }}"></script>
+    <link href="{{ asset('assets/jqgrid/css/ui.jqgrid.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/jqgrid/css/ui.jqgrid-bootstrap4.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/jquery-ui-1_blatzer/jquery-ui.css') }}" rel="stylesheet" />
+
     <style>
         #loaderOverlay {
             position: fixed;
@@ -64,10 +72,10 @@
 
 
 
-<body>
-    <div id="loaderOverlay">
+<body class="sidebar-dark sidebar-icon-only">
+    <!-- <div id="loaderOverlay">
         <div class="flip-square-loader mx-auto"></div>
-    </div>
+    </div> -->
     <div class="container-scroller">
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar">

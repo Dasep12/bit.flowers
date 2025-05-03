@@ -9,7 +9,7 @@
     }
 </style>
 <div class="modal fade" id="modalCrudRoles" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-lg modal-dialog modal-dialog-slideout" role="document">
+    <div class="modal-sm modal-dialog modal-dialog-slideout" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="titleModal"></h6>

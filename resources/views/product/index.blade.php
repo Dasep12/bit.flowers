@@ -2,7 +2,30 @@
 
 @section('content')
 
-@include('flowers.partials.Crud')
+@include('product.partials.Crud')
+@include('product.partials.CrudPrice')
+
+<style>
+    .modal-dialog-custom {
+        max-width: 800px;
+        /* Optional: ubah sesuai kebutuhan */
+    }
+
+    .modal-content-custom {
+        height: 600px;
+        /* Fixed height */
+        overflow: hidden;
+        /* Hindari scroll seluruh modal */
+    }
+
+    .modal-body-custom {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: calc(100% - 120px);
+        /* Sesuaikan agar muat dengan header dan footer */
+    }
+</style>
+
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -21,19 +44,19 @@
             <div class="row">
                 <!-- Modal Ends -->
                 <div class="text-center mb-2">
-                    <button type="button" onclick="CrudFlowers('Create','*')" class="btn btn-primary btn-sm">Create Data <i class="fa fa-plus"></i></button>
+                    <button type="button" onclick="CrudProduct('Create','*')" class="btn btn-primary btn-sm">Create Data <i class="fa fa-plus-circle"></i></button>
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table id="DataTableFlowers" class="table">
+                        <table id="DataTableProduct" class="table dataTable no-footer " style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Images</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th class="bg-primary text-white">#</th>
+                                    <th class="bg-primary text-white">Name</th>
+                                    <th class="bg-primary text-white">Flower Type</th>
+                                    <th class="bg-primary text-white">Product Type</th>
+                                    <th class="bg-primary text-white">Status</th>
+                                    <th class="bg-primary text-white">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,40 +76,32 @@
 
 
     <script>
-        function CrudFlowers(action, id) {
-            document.getElementById("CrudFormFlowers").reset();
+        function CrudProduct(action, id) {
+            document.getElementById("CrudFormProduct").reset();
             var act = action.toLowerCase();
             $("#CrudAction").val(act);
-            const input = document.getElementById('images');
-            const preview = document.getElementById('previewImage');
-            $("#id").val(id);
-            input.value = ''; // Hapus file dari input
-            preview.src = '#';
-            preview.style.display = 'none'; // Sembunyikan preview
 
             switch (act) {
                 case 'create':
                     disabledEnableForm(false);
                     $("#status").attr("checked", true)
-                    $('#CrudModalFlowersLabel').text('Create Flower');
-                    $('#CrudModalFlowers').modal('show');
+                    $('#CrudModalProductLabel').text('Create Product');
+                    $('#CrudModalProduct').modal('show');
                     break;
                 case 'update':
                     disabledEnableForm(false);
-
-
                     getDetail(id);
-                    $('#CrudModalFlowersLabel').text('Edit Flower');
+                    $('#CrudModalProductLabel').text('Edit Product');
                     setTimeout(function() {
-                        $('#CrudModalFlowers').modal('show');
+                        $('#CrudModalProduct').modal('show');
                     }, 400);
                     break;
                 case 'delete':
                     getDetail(id);
                     disabledEnableForm(true);
-                    $('#CrudModalFlowersLabel').text('Delete Flower');
+                    $('#CrudModalProductLabel').text('Delete Product');
                     setTimeout(function() {
-                        $('#CrudModalFlowers').modal('show');
+                        $('#CrudModalProduct').modal('show');
                     }, 400);
                     break;
                 default:
@@ -96,7 +111,7 @@
 
         function getDetail(id) {
             $.ajax({
-                url: "{{ url('flowerJsonDetail') }}/" + id,
+                url: "{{ url('/product/jsonDetail/') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -104,15 +119,12 @@
                     const productImageBaseUrl = "{{ asset('assets/images/product') }}";
                     results.forEach(res => {
 
-                        $('#name_flower').val(res.name_flower);
-                        $('#price').val(res.price);
+                        $('#name_produk').val(res.name_produk);
+                        $('#flowery_type_id').val(res.flowery_type_id);
+                        $('#product_type_id').val(res.product_type_id);
                         $("#status").attr("checked", res.status == 1 ? true : false);
-                        if (res.images) {
-                            const images = productImageBaseUrl + '/' + encodeURIComponent(res.images);
-                            $('#previewImage').attr('src', images);
-                        }
-                        const preview = document.getElementById('previewImage');
-                        preview.style.display = 'block';
+                        $('#description').val(res.description);
+                        $('#id').val(res.id);
                     });
                 },
                 error: function(xhr, status, error) {
@@ -122,7 +134,7 @@
         }
 
         function disabledEnableForm(act) {
-            $("#CrudFormFlowers :input").each(function() {
+            $("#CrudFormProduct :input").each(function() {
                 var typeOfObject = $(this).prop('tagName');
                 var type = $(this).attr("type");
                 switch (typeOfObject) {
@@ -146,54 +158,79 @@
         }
 
         $(document).ready(function() {
-            $('#DataTableFlowers').DataTable({
+            $('#DataTableProduct').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('flowerJson') }}", // pastikan rutenya valid
+                    url: "{{ url('product/jsonDataTableList') }}",
                     type: 'GET'
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        width: '5%' // lebar kolom ID
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'name_produk',
+                        name: 'name_produk',
+                        width: '20%'
                     },
                     {
-                        data: 'price',
-                        name: 'price'
+                        data: 'productType',
+                        name: 'productType',
+                        width: '20%'
                     },
                     {
-                        data: 'images',
-                        name: 'images'
+                        data: 'flowerType',
+                        name: 'flowerType',
+                        width: '20%'
                     },
                     {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
+                        width: '10%'
                     },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: '30%'
                     }
                 ]
             });
-
-            document.getElementById('images').addEventListener('change', function(event) {
-                const input = event.target;
-                const preview = document.getElementById('previewImage');
-
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            });
         })
+
+        function CrudPrice(action, id) {
+            document.getElementById("CrudFormPrice").reset();
+            var act = action.toLowerCase();
+            $("#CrudActionPrice").val(act);
+
+            switch (act) {
+                case 'create':
+                    // disabledEnableForm(false);
+                    $("#status").attr("checked", true)
+                    $('#CrudModalPriceLabel').text('Create Price');
+                    $('#CrudModalPrice').modal('show');
+                    break;
+                case 'update':
+                    disabledEnableForm(false);
+                    getDetail(id);
+                    $('#CrudModalPriceLabel').text('Edit Price');
+                    setTimeout(function() {
+                        $('#CrudModalPrice').modal('show');
+                    }, 400);
+                    break;
+                case 'delete':
+                    getDetail(id);
+                    disabledEnableForm(true);
+                    $('#CrudModalPriceLabel').text('Delete Price');
+                    setTimeout(function() {
+                        $('#CrudModalPrice').modal('show');
+                    }, 400);
+                    break;
+                default:
+                    console.log('Invalid action');
+            }
+        }
     </script>
