@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\FlowerTypes;
+use App\Models\Shipping;
+use App\Models\ProductTypes;
 use Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -17,15 +18,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf;
 use Illuminate\Support\Facades\Storage;
 
-class FlowerTypesController extends Controller
+class ShippingController extends Controller
 {
     //
     public function index()
     {
         $data = [
-            'title' => 'Flowers Types'
+            'title' => 'Shipping'
         ];
-        return view("flowersTypes.index", $data);
+        return view("shipping.index", $data);
     }
 
     public function jsonDataTableList(Request $request)
@@ -40,13 +41,13 @@ class FlowerTypesController extends Controller
         $searchValue = $request->get('search')['value']; // Search value
 
         // Total records
-        $totalRecords = FlowerTypes::count();
+        $totalRecords = Shipping::count();
 
         // Total records with filtering
-        $totalRecordswithFilter = FlowerTypes::where('name_type', 'like', '%' . $searchValue . '%')->count();
+        $totalRecordswithFilter = Shipping::where('place_name', 'like', '%' . $searchValue . '%')->count();
 
         // Fetch records
-        $records = FlowerTypes::where('name_type', 'like', '%' . $searchValue . '%')
+        $records = Shipping::where('place_name', 'like', '%' . $searchValue . '%')
             ->orderBy($columnName, 'desc')
             ->skip($start)
             ->take($rowperpage)
@@ -57,8 +58,10 @@ class FlowerTypesController extends Controller
         foreach ($records as $record) {
             $data_arr[] = [
                 "id" => $i++,
-                "name" => $record->name_type,
-                "remarks" => $record->remarks,
+                "name" => $record->place_name,
+                "latitude" => $record->latitude,
+                "longitude" => $record->longitude,
+                "address" => $record->address,
                 "status" => $record->status == 1 ? 'Active' : 'InActive',
                 "action" => '
                 <a href="#" onclick="Crud(\'Update\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
@@ -78,7 +81,7 @@ class FlowerTypesController extends Controller
     public function jsonDetail(Request $req)
     {
         $id = $req->id;
-        $data = FlowerTypes::where('id', $id)->get();
+        $data = Shipping::where('id', $id)->get();
         return response()->json(['success' => true, 'data' => $data]);
     }
 
@@ -86,33 +89,37 @@ class FlowerTypesController extends Controller
     {
         $act = $req->CrudAction;
         $data = [
-            "name_type" => $req->name_type,
-            "remarks" => $req->remarks,
+            "place_name" => $req->place_name,
+            "latitude" => $req->latitude,
+            "longitude" => $req->longitude,
+            "address" => $req->address,
             "status" => isset($req->status) ? 1 : 0,
             "created_at" => date('Y-m-d H:i:s'),
             "created_by" => $req->session()->get('user_id'),
         ];
         switch (strtolower($act)) {
             case "create":
-                FlowerTypes::Create($data);
+                Shipping::Create($data);
                 break;
             case "update":
-                $supp = FlowerTypes::find($req->id);
-                $supp->name_type = $req->name_type;
-                $supp->remarks = $req->remarks;
+                $supp = Shipping::find($req->id);
+                $supp->place_name = $req->place_name;
+                $supp->latitude = $req->latitude;
+                $supp->longitude = $req->longitude;
+                $supp->address = $req->address;
                 $supp->status = isset($req->status) ? 1 : 0;
                 $supp->updated_at =  date('Y-m-d H:i:s');
                 $supp->updated_by =  $req->session()->get('user_id');
                 $supp->save();
                 break;
             case "delete":
-                FlowerTypes::where('id', $req->id)->delete();
+                Shipping::where('id', $req->id)->delete();
                 break;
         }
 
         try {
             DB::commit();
-            return response()->json(['success' => true, 'msg' => 'Successfully', 'data' => $req->name_type]);
+            return response()->json(['success' => true, 'msg' => 'Successfully', 'data' => $req->place_name]);
         } catch (Exception $ex) {
             DB::rollBack();
             return response()->json(['success' => false, 'msg' => $ex->getMessage()]);

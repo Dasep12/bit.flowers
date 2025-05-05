@@ -8,8 +8,10 @@ use App\Http\Controllers\FlowerTypesController;
 use App\Http\Controllers\ProductTypesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UsersController;
 
 
@@ -77,7 +79,25 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     Route::get('/product', [ProductController::class, 'index']);
     Route::get('/product/jsonDataTableList', [ProductController::class, 'jsonDataTableList']);
     Route::get('/product/jsonDetail/{id}', [ProductController::class, 'jsonDetail']);
+    Route::get('/product/jsonDetailPrice/{id}', [ProductController::class, 'jsonDetailPrice']);
+    Route::get('/product/jsonDataTableListPrice', [ProductController::class, 'jsonDataTablePriceList']);
     Route::post('/product/jsonCrud', [ProductController::class, 'jsonCrud']);
+    Route::post('/product/jsonCrudPrice', [ProductController::class, 'jsonCrudPrice']);
+    Route::get('/product/jsonListPrice', [ProductController::class, 'jsonListPrice']);
+    Route::post('/product/jsonCrudCatalog', [ProductController::class, 'jsonCrudCatalog']);
+    Route::get('/product/jsonGallery', [ProductController::class, 'jsonGallery']);
+
+
+
+    // SHIPPING
+    Route::get('/shipping', [ShippingController::class, 'index']);
+    Route::get('/shipping/jsonDataTableList', [ShippingController::class, 'jsonDataTableList']);
+    Route::get('/shipping/jsonDetail/{id}', [ShippingController::class, 'jsonDetail']);
+    Route::post('/shipping/jsonCrud', [ShippingController::class, 'jsonCrud']);
+
+    //ORDER
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::get('/order/jsonDataTableList', [OrderController::class, 'jsonDataTableList']);
 });
 
 

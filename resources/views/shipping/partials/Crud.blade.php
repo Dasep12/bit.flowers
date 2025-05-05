@@ -1,11 +1,11 @@
  <!-- Modal starts -->
- <div class="modal fade" id="CrudModalFlowers" tabindex="-1" role="dialog" aria-labelledby="CrudModalFlowersLabel" aria-hidden="true">
+ <div class="modal fade" id="CrudModalShipping" tabindex="-1" role="dialog" aria-labelledby="CrudModalShippingLabel" aria-hidden="true">
      <div class="modal-dialog" role="document">
-         <form method="post" enctype="multipart/form-data" id="CrudFormFlowers">
+         <form method="post" enctype="multipart/form-data" id="CrudFormShipping">
              @csrf
              <div class="modal-content">
                  <div class="modal-header">
-                     <h5 class="modal-title" id="CrudModalFlowersLabel">Modal title</h5>
+                     <h5 class="modal-title" id="CrudModalShippingLabel">Modal title</h5>
                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                          <span aria-hidden="true">&times;</span>
                      </button>
@@ -14,11 +14,20 @@
                  <div class="modal-body">
                      <div class="form-group">
                          <label>Name</label>
-                         <input type="text" required class="form-control form-control-sm" placeholder="Flower name" aria-label="name_flower" name="name_flower" id="name_flower" required>
+                         <input type="text" required class="form-control form-control-sm" placeholder="Places name" aria-label="place_name" name="place_name" id="place_name" required>
                      </div>
                      <div class="form-group">
-                         <label>Price</label>
-                         <input type="number" required class="form-control form-control-sm" placeholder="Enter Price" aria-label="price" name="price" id="price" required>
+                         <label>Latitude</label>
+                         <input type="text" required class="form-control form-control-sm" placeholder="Latitude" aria-label="latitude" name="latitude" id="latitude" required>
+                     </div>
+                     <div class="form-group">
+                         <label>Longitude</label>
+                         <input type="text" required class="form-control form-control-sm" placeholder="Longitude" aria-label="longitude" name="longitude" id="longitude" required>
+                     </div>
+
+                     <div class="form-group">
+                         <label>Address</label>
+                         <textarea class="form-control form-control-sm" placeholder="Enter Address" aria-label="address" name="address" id="address"></textarea>
                      </div>
                      <div class="form-group">
                          <div class="form-check form-check-primary">
@@ -27,11 +36,6 @@
                                  Actived
                                  <i class="input-helper"></i></label>
                          </div>
-                     </div>
-                     <div class="form-group">
-                         <label>Images</label>
-                         <input type="file" class="form-control form-control-sm" aria-label="images" name="images" id="images">
-                         <img id="previewImage" src="#" alt="" style="display:none; width: 150px; margin-top: 10px;">
                      </div>
 
                      <div class="row" id="ErrorInfo"></div>
@@ -49,13 +53,13 @@
  </div>
 
  <script>
-     $("#CrudFormFlowers").validate({
+     $("#CrudFormShipping").validate({
          ignore: ":hidden",
          submitHandler: function(form) {
              var formData = new FormData(form);
              $.ajax({
                  type: "POST",
-                 url: "{{ url('jsonCrudFlower') }}",
+                 url: "{{ url('shipping/jsonCrud') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },
@@ -67,7 +71,7 @@
                  contentType: false, // ⬅️ Wajib untuk FormData
                  success: function(res) {
                      if (res.success) {
-                         $("#CrudModalFlowers").modal('hide');
+                         $("#CrudModalShipping").modal('hide');
                          doSuccess(res.data, $("#CrudAction").val())
                      } else {
                          var errMsg = '<div class="col-md-12"><div class="alert alert-custom-warning alert-warning alert-dismissible fade show" role="alert"><small><b> Error !</b><br/>' + res.msg + '</small><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button></div></div>'
@@ -93,7 +97,7 @@
 
 
      function reloadTableList() {
-         $('#DataTableFlowers').DataTable().ajax.reload();
+         $('#DataTableShipping').DataTable().ajax.reload();
      }
 
      function doSuccess(data, action) {

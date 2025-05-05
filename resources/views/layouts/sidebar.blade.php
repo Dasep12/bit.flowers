@@ -40,7 +40,7 @@ $show = "";
       @if($sd->MenuLevel == 0)
       <li class="nav-item <?= $sd->MenuUrl == $url  ? 'active' : ''  ?>"">
         <a class=" nav-link" href="{{ url($sd->MenuUrl) }}">
-        <i class="fa fa-puzzle-piece menu-icon"></i>
+        <i class="{{ $sd->MenuIcon }} menu-icon"></i>
         <span class="menu-title">{{ $sd->MenuName }}</span>
         </a>
       </li>

@@ -23,9 +23,9 @@ class FlowersController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Flowers'
+            'title' => 'Custom Flowers'
         ];
-        return view("flowers.index", $data);
+        return view("customFlowers.index", $data);
     }
 
     public function jsonFlowersList(Request $request)
@@ -60,7 +60,7 @@ class FlowersController extends Controller
                 "name" => $record->name_flower,
                 "price" => 'Rp ' . number_format($record->price, 0, ',', '.'),
                 "images" => $record->images != "" ? '<img src="' . asset('assets/images/product/' . $record->images) . '" width="60">' : '<img src="' . asset('assets/images/No_Image_Available.jpg') . '" width="60">',
-                "status" => $record->status == 1 ? 'Aktif' : 'Tidak Aktif',
+                "status" => $record->status == 1 ? 'Active' : 'InActive',
                 "action" => '
                 <a href="#" onclick="CrudFlowers(\'Update\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
                  <a href="#" onclick="CrudFlowers(\'Delete\',\'' . $record->id . '\')" class="ml-1 btn btn-sm btn-danger">Delete</a>

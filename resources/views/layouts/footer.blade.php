@@ -21,7 +21,9 @@
         </script>
         </body>
 
-
+        <!-- End custom js for this page-->
+        <script src="{{ asset('assets/vendors/lightgallery/js/lightgallery-all.min.js')}}"></script>
+        <script src="{{ asset('assets/js/light-gallery.js')}}"></script>
         <!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
 
         </html>

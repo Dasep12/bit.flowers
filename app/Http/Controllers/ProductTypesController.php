@@ -59,7 +59,7 @@ class ProductTypesController extends Controller
                 "id" => $i++,
                 "name" => $record->name_type,
                 "remarks" => $record->remarks,
-                "status" => $record->status == 1 ? 'Aktif' : 'Tidak Aktif',
+                "status" => $record->status == 1 ? 'Active' : 'InActive',
                 "action" => '
                 <a href="#" onclick="Crud(\'Update\',\'' . $record->id . '\')" class="btn btn-sm btn-primary">Edit</a>
                  <a href="#" onclick="Crud(\'Delete\',\'' . $record->id . '\')" class="ml-1 btn btn-sm btn-danger">Delete</a>

@@ -80,17 +80,23 @@
             document.getElementById("CrudFormProduct").reset();
             var act = action.toLowerCase();
             $("#CrudAction").val(act);
-
+            jsonDataTablePrice(id);
+            showGallery(id);
+            document.getElementById("progressCatalog").style.display = "none";
             switch (act) {
                 case 'create':
-                    disabledEnableForm(false);
+                    disabledEnableForm("CrudFormProduct", false);
                     $("#status").attr("checked", true)
                     $('#CrudModalProductLabel').text('Create Product');
                     $('#CrudModalProduct').modal('show');
+                    $("#price-tab").addClass("disabled");
+                    $("#catalog-tab").addClass("disabled");
                     break;
                 case 'update':
-                    disabledEnableForm(false);
+                    disabledEnableForm("CrudFormProduct", false);
                     getDetail(id);
+                    $("#price-tab").removeClass("disabled");
+                    $("#catalog-tab").removeClass("disabled");
                     $('#CrudModalProductLabel').text('Edit Product');
                     setTimeout(function() {
                         $('#CrudModalProduct').modal('show');
@@ -98,7 +104,9 @@
                     break;
                 case 'delete':
                     getDetail(id);
-                    disabledEnableForm(true);
+                    $("#price-tab").removeClass("disabled");
+                    $("#catalog-tab").removeClass("disabled");
+                    disabledEnableForm("CrudFormProduct", true);
                     $('#CrudModalProductLabel').text('Delete Product');
                     setTimeout(function() {
                         $('#CrudModalProduct').modal('show');
@@ -125,6 +133,7 @@
                         $("#status").attr("checked", res.status == 1 ? true : false);
                         $('#description').val(res.description);
                         $('#id').val(res.id);
+                        $('#product_id').val(res.id);
                     });
                 },
                 error: function(xhr, status, error) {
@@ -133,8 +142,36 @@
             });
         }
 
-        function disabledEnableForm(act) {
-            $("#CrudFormProduct :input").each(function() {
+        function getDetailPrice(id) {
+            $.ajax({
+                url: "{{ url('/product/jsonDetailPrice/') }}/" + id,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var results = data.data;
+                    const productImageBaseUrl = "{{ asset('assets/images/product') }}";
+                    results.forEach(res => {
+                        $('#size_id').val(res.size_id);
+                        $('#price').val(res.price);
+                        $('#product_id').val(res.product_id);
+                        $('#discount').val(res.discount);
+                        $('#idPrice').val(res.id);
+                        if (res.images) {
+                            const images = productImageBaseUrl + '/' + encodeURIComponent(res.images);
+                            $('#previewImage').attr('src', images);
+                        }
+                        const preview = document.getElementById('previewImage');
+                        preview.style.display = 'block';
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        function disabledEnableForm(formId, act) {
+            $("#" + formId + " :input").each(function() {
                 var typeOfObject = $(this).prop('tagName');
                 var type = $(this).attr("type");
                 switch (typeOfObject) {
@@ -201,29 +238,117 @@
             });
         })
 
+
+        function jsonDataTablePrice(id) {
+            // Destroy existing DataTable if already initialized
+            if ($.fn.DataTable.isDataTable('#DataTablePrice')) {
+                $('#DataTablePrice').DataTable().clear().destroy();
+            }
+            $('#DataTablePrice').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ url('product/jsonDataTableListPrice') }}?product_id=" + id,
+                    type: 'GET'
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        width: '5%' // lebar kolom ID
+                    },
+                    {
+                        data: 'size',
+                        name: 'size',
+                        width: '20%'
+                    },
+                    {
+                        data: 'price',
+                        name: 'price',
+                        width: '20%'
+                    },
+                    {
+                        data: 'discount',
+                        name: 'discount',
+                        width: '20%'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        width: '30%'
+                    }
+                ]
+            });
+        }
+
+
+        function showGallery(id) {
+            $('#lightgallery-without-thumb').empty();
+            let gallery = $('#lightgallery-without-thumb').data('lightGallery');
+            if (gallery) {
+                gallery.destroy(true); // destroy dengan true = clean all
+            }
+            $.ajax({
+                type: "GET",
+                url: "{{ url('/product/jsonGallery') }}",
+                data: {
+                    id: id
+                },
+                success: function(res) {
+                    console.log(res);
+                    if (res.success) {
+                        $.each(res.data, function(index, value) {
+                            var html = `<a href="{{ asset('assets/images/product')}}/${value.images}" class="image-tile">
+                            <div data-id="${value.id}" onclick="removeImage(event, this)" style="position: absolute; top: 0px; right: 10px; font-size: 20px; cursor: pointer; background: #fff;padding: 2px 6px;">
+                                <i class="fa fa-window-close text-danger"></i>
+                            </div>
+                            <img src="{{ asset('assets/images/product')}}/${value.images}" alt="${value.images}">
+                            </a>`;
+                            $('#lightgallery-without-thumb').append(html);
+                        });
+                        $("#lightgallery-without-thumb").lightGallery({
+                            selector: 'a.image-tile',
+                            thumbnail: true,
+                            animateThumb: false,
+                            showThumbByDefault: false
+                        });
+                    }
+                }
+            })
+        }
+
         function CrudPrice(action, id) {
             document.getElementById("CrudFormPrice").reset();
             var act = action.toLowerCase();
-            $("#CrudActionPrice").val(act);
+            $("#CrudPriceAction").val(act);
+            const input = document.getElementById('images');
+            const preview = document.getElementById('previewImage');
+            $("#idPrice").val(id);
+            $("#product_id").val($("#id").val());
+
+            input.value = ''; // Hapus file dari input
+            preview.src = '#';
+            preview.style.display = 'none'; // Sembunyikan preview
 
             switch (act) {
                 case 'create':
-                    // disabledEnableForm(false);
+                    disabledEnableForm("CrudFormPrice", false);
                     $("#status").attr("checked", true)
                     $('#CrudModalPriceLabel').text('Create Price');
                     $('#CrudModalPrice').modal('show');
                     break;
                 case 'update':
-                    disabledEnableForm(false);
-                    getDetail(id);
+                    disabledEnableForm("CrudFormPrice", false);
+                    getDetailPrice(id);
                     $('#CrudModalPriceLabel').text('Edit Price');
                     setTimeout(function() {
                         $('#CrudModalPrice').modal('show');
                     }, 400);
                     break;
                 case 'delete':
-                    getDetail(id);
-                    disabledEnableForm(true);
+                    getDetailPrice(id);
+                    disabledEnableForm("CrudFormPrice", true);
                     $('#CrudModalPriceLabel').text('Delete Price');
                     setTimeout(function() {
                         $('#CrudModalPrice').modal('show');

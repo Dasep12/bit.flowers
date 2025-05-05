@@ -20,8 +20,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
-
-
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href=".{{ asset('assets/vendors/lightgallery/css/lightgallery.css')}}">
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/simple-line-icon/css/simple-line-icons.css')}}">
 
     <!-- plugins:js -->
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
@@ -39,7 +41,6 @@
     <script src="{{ asset('assets/js/modal-demo.js')}}"></script>
 
     <script src="{{ asset('assets/js/toastDemo.js')}}"></script>
-    <!-- End custom js for this page-->
 
 
     <!-- jQGrid -->
@@ -80,8 +81,8 @@
         <!-- partial:../../partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="../../index-2.html"><img src="{{ asset('assets/images/logo.svg')}}" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="../../index-2.html"><img src="{{ asset('assets/images/logo-mini.svg')}}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="#"><img src="{{ asset('assets/images/logo.png')}}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="#"><img src="{{ asset('assets/images/loog-mini.png')}}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-stretch">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
