@@ -29,20 +29,6 @@
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
     <script src="{{ asset('assets/vendors/js/vendor.bundle.addons.js')}}"></script>
 
-    <!-- endinject -->
-    <!-- inject:js -->
-    <script src="{{ asset('assets/js/off-canvas.js')}}"></script>
-    <script src="{{ asset('assets/js/hoverable-collapse.js')}}"></script>
-    <script src="{{ asset('assets/js/misc.js')}}"></script>
-    <script src="{{ asset('assets/js/settings.js')}}"></script>
-    <script src="{{ asset('assets/js/todolist.js')}}"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <script src="{{ asset('assets/js/modal-demo.js')}}"></script>
-
-    <script src="{{ asset('assets/js/toastDemo.js')}}"></script>
-
-
     <!-- jQGrid -->
     <script src="{{ asset('assets/jqgrid/js/jquery.jqGrid.min.js') }}"></script>
     <script src="{{ asset('assets/jqgrid/js/i18n/grid.locale-en.js') }}"></script>

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DenyController;
 use App\Http\Controllers\FlowersController;
 use App\Http\Controllers\FlowerTypesController;
+use App\Http\Controllers\FrontEnd\FE_HomeController;
 use App\Http\Controllers\ProductTypesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LogoutController;
@@ -60,6 +61,9 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
     Route::get('/flowerJson', [FlowersController::class, 'jsonFlowersList']);
     Route::get('/flowerJsonDetail/{id}', [FlowersController::class, 'jsonDetail']);
     Route::post('/jsonCrudFlower', [FlowersController::class, 'jsonCrudFlowers']);
+    Route::get('/categories/search', [FlowersController::class, 'searchCategory']);
+    Route::post('/categories/store', [FlowersController::class, 'storeCategory']);
+    Route::delete('/categories/{id}', [FlowersController::class, 'destroyCategory']);
 
 
     // FLOWERS TYPE 
@@ -102,9 +106,28 @@ Route::middleware(['check.session', 'check.menuAccess'])->group(function () {
 
 
 Route::middleware('check.sessionLogin')->prefix('/')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+    Route::get('/login', [AuthController::class, 'index']);
 });
+
+
+
 
 Route::get('/deny', [DenyController::class, 'index'])->middleware('check.session');
 Route::post('/auth', [AuthController::class, 'Auth']);
 Route::get('/logout', [LogoutController::class, 'index']);
+
+
+
+
+
+// FRONT END ROUTES
+Route::get('/', [FE_HomeController::class, 'index']);
+Route::get('/contact', [FE_HomeController::class, 'contact']);
+Route::get('/login', [FE_HomeController::class, 'login']);
+Route::get('/register', [FE_HomeController::class, 'register']);
+Route::get('/about', [FE_HomeController::class, 'about']);
+Route::get('/faq', [FE_HomeController::class, 'faq']);
+Route::get('/myaccount', [FE_HomeController::class, 'myaccount']);
+Route::get('/cart', [FE_HomeController::class, 'cart']);
+Route::get('/checkout', [FE_HomeController::class, 'checkout']);
+Route::get('/shop', [FE_HomeController::class, 'shop']);

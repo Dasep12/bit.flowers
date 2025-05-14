@@ -1,4 +1,18 @@
  <!-- Modal starts -->
+ <style>
+     .btn-sm-icon {
+         height: 100%;
+         padding: 0.375rem 0.5rem;
+         font-size: 0.875rem;
+     }
+
+     .select2-container--default .select2-selection--single {
+         height: 35px !important;
+         /* Sesuaikan dengan tinggi input lainnya */
+         padding: 9px !important;
+         /* Sesuaikan padding jika diperlukan */
+     }
+ </style>
  <div class="modal fade" id="CrudModalFlowers" tabindex="-1" role="dialog" aria-labelledby="CrudModalFlowersLabel" aria-hidden="true">
      <div class="modal-dialog" role="document">
          <form method="post" enctype="multipart/form-data" id="CrudFormFlowers">
@@ -19,6 +33,22 @@
                      <div class="form-group">
                          <label>Price</label>
                          <input type="number" required class="form-control form-control-sm" placeholder="Enter Price" aria-label="price" name="price" id="price" required>
+                     </div>
+                     <div class="form-group">
+                         <label for="category">Category</label>
+                         <div class="d-flex gap-1 align-items-center">
+                             <select id="category" name="group_product_id" class="form-control form-control-sm select2" required style="flex: 1;"></select>
+
+                             <!-- Tombol tambah kategori -->
+                             <button type="button" id="addCategoryBtn" class="btn-sm-icon btn btn-sm btn-success" title="Tambah Kategori">
+                                 <i class="fas fa-plus"></i>
+                             </button>
+
+                             <!-- Tombol hapus kategori -->
+                             <button type="button" id="deleteCategoryBtn" class="btn-sm-icon btn btn-sm btn-danger" title="Hapus Kategori">
+                                 <i class="fas fa-trash-alt"></i>
+                             </button>
+                         </div>
                      </div>
                      <div class="form-group">
                          <div class="form-check form-check-primary">
@@ -92,6 +122,7 @@
 
 
 
+
      function reloadTableList() {
          $('#DataTableFlowers').DataTable().ajax.reload();
      }
@@ -116,4 +147,71 @@
                  break;
          }
      }
+
+
+     function callCategory() {
+         $('#category').select2({
+             placeholder: 'Pilih atau tambah kategori',
+             tags: true,
+             dropdownParent: $('#CrudModalFlowers'), // Ganti sesuai modal ID kamu
+             ajax: {
+                 url: '/categories/search',
+                 dataType: 'json',
+                 delay: 250,
+                 data: function(params) {
+                     return {
+                         q: params.term
+                     };
+                 },
+                 processResults: function(data) {
+                     return {
+                         results: data
+                     };
+                 },
+                 cache: true
+             },
+             width: '100%'
+         });
+     }
+     $(document).ready(function() {
+         let selectedCategoryId = null;
+
+
+         $('#category').on('select2:select', function(e) {
+             selectedCategoryId = e.params.data.id;
+         });
+
+         $('#addCategoryBtn').on('click', function() {
+             let newCat = $('#category').val();
+             if (!newCat) return alert('Masukkan nama kategori terlebih dahulu');
+
+             $.post('/categories/store', {
+                 name: newCat,
+                 _token: '{{ csrf_token() }}'
+             }, function(data) {
+                 let newOption = new Option(data.text, data.id, true, true);
+                 $('#category').append(newOption).trigger('change');
+                 alert('Kategori baru berhasil ditambahkan!');
+             });
+         });
+
+         $('#deleteCategoryBtn').on('click', function() {
+             if (!selectedCategoryId) return alert('Pilih kategori yang ingin dihapus.');
+
+             if (confirm('Yakin ingin menghapus kategori ini?')) {
+                 $.ajax({
+                     url: `/categories/${selectedCategoryId}`,
+                     type: 'DELETE',
+                     data: {
+                         _token: '{{ csrf_token() }}'
+                     },
+                     success: function() {
+                         $('#category').val(null).trigger('change');
+                         selectedCategoryId = null;
+                         alert('Kategori berhasil dihapus!');
+                     }
+                 });
+             }
+         });
+     });
  </script>

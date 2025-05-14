@@ -18,6 +18,7 @@ class Flowers extends Model
     protected $fillable = [
         'name_flower',
         'category_id',
+        'group_product_id',
         'price',
         'images',
         'created_at',

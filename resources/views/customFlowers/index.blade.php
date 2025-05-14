@@ -3,6 +3,7 @@
 @section('content')
 
 @include('customFlowers.partials.Crud')
+
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -63,7 +64,7 @@
             input.value = ''; // Hapus file dari input
             preview.src = '#';
             preview.style.display = 'none'; // Sembunyikan preview
-
+            callCategory();
             switch (act) {
                 case 'create':
                     disabledEnableForm(false);
@@ -103,9 +104,10 @@
                     var results = data.data;
                     const productImageBaseUrl = "{{ asset('assets/images/product') }}";
                     results.forEach(res => {
-
+                        console.log(res.group_product_id);
                         $('#name_flower').val(res.name_flower);
                         $('#price').val(res.price);
+                        $('#category').val(res.group_product_id).trigger('change');
                         $("#status").attr("checked", res.status == 1 ? true : false);
                         if (res.images) {
                             const images = productImageBaseUrl + '/' + encodeURIComponent(res.images);
