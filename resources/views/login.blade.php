@@ -149,11 +149,7 @@
                 success: function(data) {
                     if (data.msg == "success") {
                         setTimeout(function() {
-                            if (data.roles == "*") {
-                                window.location.href = "{{ url('dashboard') }}"
-                            } else {
-                                window.location.href = "{{ url('monitorStock') }}"
-                            }
+                            window.location.href = "{{ url('admin/dashboard') }}"
                         }, 100)
                     } else {
                         showToast(data.msg, "", '')
@@ -176,8 +172,7 @@
         })
     </script>
 </body>
-
-
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio corrupti, nemo animi, veritatis perferendis dignissimos quam totam autem amet officiis rem earum cupiditate ad? Ut deserunt temporibus accusantium quis sequi?
 <!-- Mirrored from www.urbanui.com/melody/template/pages/samples/login-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:53 GMT -->
 
 </html>

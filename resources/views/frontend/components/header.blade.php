@@ -1,3 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\DB;
+
+$jenis_bunga = DB::table('tbl_mst_flowertype')->where('status', 1)->take(10)->get();
+
+?>
+
 <!-- Header Area Start Here -->
 <header class="main-header-area">
     <!-- Main Header Area Start -->
@@ -7,7 +15,7 @@
                 <div class="col-lg-2 col-xl-2 col-md-6 col-6 col-custom">
                     <div class="header-logo d-flex align-items-center">
                         <a href="index.html">
-                            <img class="img-full" src="{{ asset('frontend/assets/images/logo/p1.jpg')}}" alt="Header Logo">
+                            <img class="img-full" src="{{ asset('frontend/assets/images/logo/logo-footer.png')}}" alt="Header Logo">
                         </a>
                     </div>
                 </div>
@@ -15,92 +23,54 @@
                     <nav class="main-nav d-none d-lg-flex">
                         <ul class="nav">
                             <li>
-                                <a class="active" href="index.html">
+                                <a class="active" href="{{ url('/') }}">
                                     <span class="menu-text"> Home</span>
-                                    <i class="fa fa-angle-down"></i>
                                 </a>
-                                <ul class="dropdown-submenu dropdown-hover">
-                                    <li><a class="active" href="index.html">Home Page - 1</a></li>
-                                    <li><a href="index-2.html">Home Page - 2</a></li>
-                                    <li><a href="index-3.html">Home Page - 3</a></li>
-                                </ul>
                             </li>
+
+
                             <li>
-                                <a href="shop.html">
-                                    <span class="menu-text">Shop</span>
-                                    <i class="fa fa-angle-down"></i>
+                                <a href="{{ url('/shop') }}">
+                                    <span class="menu-text"> Shopping</span>
                                 </a>
-                                <div class="mega-menu dropdown-hover">
-                                    <div class="menu-colum">
-                                        <ul>
-                                            <li><span class="mega-menu-text">Shop</span></li>
-                                            <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                            <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                            <li><a href="shop-list-left.html">Shop List Left Sidebar</a></li>
-                                            <li><a href="shop-list-right.html">Shop List Right Sidebar</a></li>
-                                            <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="menu-colum">
-                                        <ul>
-                                            <li><span class="mega-menu-text">Product</span></li>
-                                            <li><a href="product-details.html">Single Product</a></li>
-                                            <li><a href="variable-product-details.html">Variable Product</a></li>
-                                            <li><a href="external-product-details.html">External Product</a></li>
-                                            <li><a href="gallery-product-details.html">Gallery Product</a></li>
-                                            <li><a href="countdown-product-details.html">Countdown Product</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="menu-colum">
-                                        <ul>
-                                            <li><span class="mega-menu-text">Others</span></li>
-                                            <li><a href="error-404.html">Error 404</a></li>
-                                            <li><a href="compare.html">Compare Page</a></li>
-                                            <li><a href="cart.html">Cart Page</a></li>
-                                            <li><a href="checkout.html">Checkout Page</a></li>
-                                            <li><a href="wishlist.html">Wishlist Page</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </li>
-                            <li>
-                                <a href="blog-details-fullwidth.html">
-                                    <span class="menu-text"> Blog</span>
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="dropdown-submenu dropdown-hover">
-                                    <li><a href="blog.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a></li>
-                                    <li><a href="blog-list-fullwidth.html">Blog List Fullwidth</a></li>
-                                    <li><a href="blog-grid.html">Blog Grid Page</a></li>
-                                    <li><a href="blog-grid-right-sidebar.html">Blog Grid Right Sidebar</a></li>
-                                    <li><a href="blog-grid-fullwidth.html">Blog Grid Fullwidth</a></li>
-                                    <li><a href="blog-details-sidebar.html">Blog Details Sidebar</a></li>
-                                    <li><a href="blog-details-fullwidth.html">Blog Details Fullwidth</a></li>
-                                </ul>
-                            </li>
+
                             <li>
                                 <a href="#">
-                                    <span class="menu-text"> Pages</span>
-                                    <i class="fa fa-angle-down"></i>
+                                    <span class="menu-text"> Flowers</span>
                                 </a>
                                 <ul class="dropdown-submenu dropdown-hover">
-                                    <li><a href="contact-us.html">Contact</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="frequently-questions.html">FAQ</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
+                                    @foreach ($jenis_bunga as $bunga)
+                                    <li><a href="{{ url('shop') }}?jenis_bunga={{ $bunga->name_type }}">{{ $bunga->name_type }}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
+
                             <li>
-                                <a href="about-us.html">
-                                    <span class="menu-text"> About Us</span>
+                                <a href="{{ url('/contact') }}">
+                                    <span class="menu-text">Contact</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="contact-us.html">
-                                    <span class="menu-text">Contact Us</span>
+                                <a href="{{ url('/faq') }}">
+                                    <span class="menu-text">FAQ</span>
                                 </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/about') }}">
+                                    <span class="menu-text">About</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <span class="menu-text"> Account</span>
+                                </a>
+                                <ul class="dropdown-submenu dropdown-hover">
+                                    <li><a href="{{ url('/myaccount') }}">My Account</a></li>
+                                    <li><a href="{{ url('/login') }}">Login</a></li>
+                                    <li><a href="{{ url('/register') }}">Register</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </nav>
@@ -116,7 +86,7 @@
                                 <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
                                     <div class="single-cart-item">
                                         <div class="cart-img">
-                                            <a href="cart.html"><img src="assets/images/cart/1.jpg" alt=""></a>
+                                            <a href="cart.html"><img src="{{ asset('frontend/assets/images/cart/1.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="cart-text">
                                             <h5 class="title"><a href="cart.html">Odio tortor consequat</a></h5>
@@ -131,7 +101,7 @@
                                     </div>
                                     <div class="single-cart-item">
                                         <div class="cart-img">
-                                            <a href="cart.html"><img src="assets/images/cart/2.jpg" alt=""></a>
+                                            <a href="cart.html"><img src="{{ asset('frontend/assets/images/cart/2.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="cart-text">
                                             <h5 class="title"><a href="cart.html">Integer eget augue</a></h5>
@@ -146,7 +116,7 @@
                                     </div>
                                     <div class="single-cart-item">
                                         <div class="cart-img">
-                                            <a href="cart.html"><img src="assets/images/cart/3.jpg" alt=""></a>
+                                            <a href="cart.html"><img src="{{ asset('frontend/assets/images/cart/3.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="cart-text">
                                             <h5 class="title"><a href="cart.html">Eleifend quam</a></h5>
@@ -216,7 +186,7 @@
                     <!-- mobile menu navigation start -->
                     <nav>
                         <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><a href="#">Home</a>
+                            <li><a href="#">Home</a>
                                 <ul class="dropdown">
                                     <li><a href="index.html">Home Page 1</a></li>
                                     <li><a href="index-2.html">Home Page 2</a></li>
@@ -224,7 +194,7 @@
                                     <li><a href="index-4.html">Home Page 4</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children"><a href="#">Shop</a>
+                            <li><a href="#">Shopping</a>
                                 <ul class="megamenu dropdown">
                                     <li class="mega-title has-children"><a href="#">Shop Layouts</a>
                                         <ul class="dropdown">
@@ -255,7 +225,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children "><a href="#">Blog</a>
+                            <li class="menu-item-has-children "><a href="#">Jenis Bunga</a>
                                 <ul class="dropdown">
                                     <li><a href="blog.html">Blog Left Sidebar</a></li>
                                     <li><a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a></li>
@@ -267,15 +237,16 @@
                                     <li><a href="blog-details-fullwidth.html">Blog Details Fullwidth Page</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children "><a href="#">Halaman</a>
+                            <li class="menu-item-has-children "><a href="#">Account</a>
                                 <ul class="dropdown">
                                     <li><a href="frequently-questions.html">FAQ</a></li>
                                     <li><a href="my-account.html">Akun saya</a></li>
                                     <li><a href="login-register.html">login &amp; register</a></li>
                                 </ul>
                             </li>
-                            <li><a href="about-us.html">Tentang Kami</a></li>
-                            <li><a href="contact-us.html">Contact</a></li>
+                            <li><a href="about-us.html">FAQ</a></li>
+                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="contact-us.html">Contact Us</a></li>
                         </ul>
                     </nav>
                     <!-- mobile menu navigation end -->

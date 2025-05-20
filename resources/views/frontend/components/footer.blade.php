@@ -7,7 +7,7 @@
                     <div class="single-footer-widget m-0">
                         <div class="footer-logo">
                             <a href="index.html">
-                                <img src="assets/images/logo/logo-footer.png" alt="Logo Image">
+                                <img src="{{ asset('frontend/assets/images/logo/logo-footer.png')}}" alt="Logo Image">
                             </a>
                         </div>
                         <p class="desc-content">Lorem Khaled Ipsum is a major key to success. To be successful you’ve got to work hard you’ve got to make it.</p>
@@ -103,8 +103,16 @@
 </footer>
 <!--Footer Area End-->
 
-<!-- Modal -->
-<div class="modal flosun-modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+
+
+<!-- Scroll to Top Start -->
+<a class="scroll-to-top" href="#">
+    <i class="lnr lnr-arrow-up"></i>
+</a>
+<!-- Scroll to Top End -->
+
+<!-- Modal detail Product -->
+<div class="modal flosun-modal fade" id="modalProduct" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <button type="button" class="close close-button" data-bs-dismiss="modal" aria-label="Close">
@@ -116,7 +124,7 @@
                         <div class="col-md-6 col-custom">
                             <div class="modal-product-img">
                                 <a class="w-100" href="#">
-                                    <img class="w-100" src="assets/images/product/large-size/1.jpg" alt="Product">
+                                    <img class="w-100" id="image-prod-modal" src="assets/images/product/1747467251_1.jpg" alt="Product">
                                 </a>
                             </div>
                         </div>
@@ -124,11 +132,11 @@
                             <div class="modal-product">
                                 <div class="product-content">
                                     <div class="product-title">
-                                        <h4 class="title">nama produk</h4>
+                                        <h4 class="title-product">nama produk</h4>
                                     </div>
                                     <div class="price-box">
-                                        <span class="regular-price ">Rp250.000</span>
-                                        <span class="old-price"><del>Rp350.000</del></span>
+                                        <span class="regular-price" id="first_price">Rp250.000</span>
+                                        <span class="old-price" id="final_price"><del>Rp350.000</del></span>
                                     </div>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>
@@ -139,7 +147,7 @@
                                         <span>1 Review</span>
                                     </div>
                                     <p class="desc-content">Kami sangat senang jika anda dapat berbelanja di koto kami.</p>
-                                    <form class="d-flex flex-column w-100" action="#">
+                                    <!-- <form class="d-flex flex-column w-100" action="#">
                                         <div class="form-group">
                                             <select class="form-control nice-select w-100">
                                                 <option>S</option>
@@ -149,20 +157,18 @@
                                                 <option>XXL</option>
                                             </select>
                                         </div>
-                                    </form>
-                                    <div class="quantity-with-btn">
+                                    </form> -->
+                                    <div class="quantity-with_btn mb-5">
                                         <div class="quantity">
                                             <div class="cart-plus-minus">
                                                 <input class="cart-plus-minus-box" value="0" type="text">
                                                 <div class="dec qtybutton">-</div>
                                                 <div class="inc qtybutton">+</div>
-                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
-                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
                                             </div>
                                         </div>
-                                        <div class="add-to_btn">
-                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Masukkan ke keranjang</a>
-                                            <a class="btn flosun-button secondary-btn rounded-0" href="wishlist.html">Tambahkan ke Daftar</a>
+                                        <div class="add-to_cart">
+                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Add to cart</a>
+                                            <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a>
                                         </div>
                                     </div>
                                 </div>
@@ -174,16 +180,27 @@
         </div>
     </div>
 </div>
+<!-- Modal detail Product End -->
 
-<!-- Scroll to Top Start -->
-<a class="scroll-to-top" href="#">
-    <i class="lnr lnr-arrow-up"></i>
-</a>
-<!-- Scroll to Top End -->
+<script>
+    $(document).on('click', '.btnQuickView', function() {
+        const data = $(this).data();
 
-<!-- JS ============================================ -->
-<!-- jQuery JS -->
-<script src="{{ asset('frontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
+        // Contoh: tampilkan di console
+        console.log(data);
+        // Isi modal (contoh)
+        $('#modalProduct .title-product').text(data.name);
+        if (data.discount > 0) {
+            $('#first_price').text('Rp ' + Number(data.price_final).toLocaleString());
+            $('#final_price del').text('Rp ' + Number(data.price_first).toLocaleString());
+        } else {
+            $('#first_price').text('Rp ' + Number(data.price_first).toLocaleString());
+            $('#final_price del').text('');
+        }
+        $('#modalProduct #image-prod-modal').attr('src', '{{ asset("assets/images/product") }}/' + data.image1);
+
+    });
+</script>
 <!-- jQuery Migrate JS -->
 <script src="{{ asset('frontend/assets/js/vendor/jquery-migrate-3.3.2.min.js')}}"></script>
 <!-- Modernizer JS -->

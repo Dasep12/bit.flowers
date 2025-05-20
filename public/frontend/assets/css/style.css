@@ -652,7 +652,6 @@ mark {
   font-size: 14px;
   text-align: right;
   line-height: 31px;
-  width: 100px;
 }
 
 .widget-list form button {
@@ -2672,7 +2671,7 @@ mark {
 /*----------------------------------------*/
 .footer-area .footer-widget-area {
   padding: 100px 0;
-  background-color: #1b1b1b;
+  background-color: #dd5d69;
 }
 
 @media (max-width: 991px) {
@@ -2758,7 +2757,7 @@ mark {
 }
 
 .footer-area .footer-copyright-area {
-  background-color: #000000;
+  background-color: #c4535d;
   padding: 20px 0px;
 }
 

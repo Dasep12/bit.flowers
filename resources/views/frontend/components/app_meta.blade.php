@@ -36,4 +36,8 @@
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css')}}">
 
+    <!-- JS ============================================ -->
+    <!-- jQuery JS -->
+    <script src="{{ asset('frontend/assets/js/vendor/jquery-3.6.0.min.js')}}"></script>
+
 </head>

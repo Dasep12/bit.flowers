@@ -119,7 +119,7 @@
 
         function getDetail(id) {
             $.ajax({
-                url: "{{ url('/product/jsonDetail/') }}/" + id,
+                url: "{{ url('/admin/product/jsonDetail/') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -144,7 +144,7 @@
 
         function getDetailPrice(id) {
             $.ajax({
-                url: "{{ url('/product/jsonDetailPrice/') }}/" + id,
+                url: "{{ url('/admin/product/jsonDetailPrice/') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -199,7 +199,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('product/jsonDataTableList') }}",
+                    url: "{{ url('/admin/product/jsonDataTableList') }}",
                     type: 'GET'
                 },
                 columns: [{
@@ -248,7 +248,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('product/jsonDataTableListPrice') }}?product_id=" + id,
+                    url: "{{ url('/admin/product/jsonDataTableListPrice') }}?product_id=" + id,
                     type: 'GET'
                 },
                 columns: [{
@@ -291,7 +291,7 @@
             }
             $.ajax({
                 type: "GET",
-                url: "{{ url('/product/jsonGallery') }}",
+                url: "{{ url('admin/product/jsonGallery') }}",
                 data: {
                     id: id
                 },

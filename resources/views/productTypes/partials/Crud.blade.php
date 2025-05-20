@@ -50,7 +50,7 @@
              var formData = new FormData(form);
              $.ajax({
                  type: "POST",
-                 url: "{{ url('productTypes/jsonCrud') }}",
+                 url: "{{ url('/admin/productTypes/jsonCrud') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },

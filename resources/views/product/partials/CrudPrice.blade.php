@@ -89,7 +89,7 @@
              var formData = new FormData(form);
              $.ajax({
                  type: "POST",
-                 url: "{{ url('product/jsonCrudPrice') }}",
+                 url: "{{ url('/admin/product/jsonCrudPrice') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },
@@ -102,6 +102,7 @@
                  success: function(res) {
                      if (res.success) {
                          $("#CrudModalPrice").modal('hide');
+                         jsonDataTablePrice($("#product_id").val());
                          doSuccess(res.data, $("#CrudPriceAction").val())
                      } else {
                          var errMsg = '<div class="col-md-12"><div class="alert alert-custom-warning alert-warning alert-dismissible fade show" role="alert"><small><b> Error !</b><br/>' + res.msg + '</small><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button></div></div>'

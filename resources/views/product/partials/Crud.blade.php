@@ -206,7 +206,7 @@
                  headers: {
                      'X-CSRF-TOKEN': '{{ csrf_token() }}'
                  },
-                 url: "{{ url('product/jsonCrudCatalog') }}",
+                 url: "{{ url('/admin/product/jsonCrudCatalog') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },
@@ -248,7 +248,7 @@
              var formData = new FormData(form);
              $.ajax({
                  type: "POST",
-                 url: "{{ url('/product/jsonCrud') }}",
+                 url: "{{ url('admin/product/jsonCrud') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },
@@ -347,7 +347,7 @@
                  }, false);
                  return xhr;
              },
-             url: '{{ url("product/jsonCrudCatalog") }}',
+             url: '{{ url("admin/product/jsonCrudCatalog") }}',
              type: 'POST',
              data: formData,
              contentType: false,
@@ -365,3 +365,5 @@
          });
      });
  </script>
+
+ Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla consequatur corrupti iusto libero fugit repellendus ea saepe odio. Ipsum similique debitis fugit sint, expedita nemo dolorem hic sequi ullam placeat!

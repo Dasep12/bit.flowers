@@ -338,17 +338,23 @@
 	/*--------------------------------
 	Price Slider Active
 	-------------------------------- */
+	function formatRupiah(angka) {
+    	return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}	
 	$( "#slider-range" ).slider({
         range: true,
         min: 0,
-        max: 500,
-        values: [ 0, 500 ],
-        slide: function( event, ui ) {
-        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-       }
+        max: 5000000,
+        values: [ 0, 5000000 ],
+        slide: function(event, ui) {
+        $("#amount").val("Rp. " + formatRupiah(ui.values[0]) + " - Rp. " + formatRupiah(ui.values[1]));
+    }
     });
-    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-       " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+    // Set initial value with formatted separator
+	$("#amount").val(
+		"Rp. " + formatRupiah($("#slider-range").slider("values", 0)) +
+		" - Rp. " + formatRupiah($("#slider-range").slider("values", 1))
+	);
 	/*----------------------------------------
 		Bootstrap 5 Tooltip
 	------------------------------------------*/

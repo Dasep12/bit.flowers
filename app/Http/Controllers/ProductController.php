@@ -192,7 +192,7 @@ class ProductController extends Controller
             "product_type_id" => $req->product_type_id,
             "type_sales" => 'INC',
             "description" => $req->description,
-            "status" => isset($req->status) ? 1 : 0,
+            "status" => strtolower($req->status) == "on" ? 1 : 0,
             "created_at" => date('Y-m-d H:i:s'),
             "created_by" => $req->session()->get('user_id'),
         ];

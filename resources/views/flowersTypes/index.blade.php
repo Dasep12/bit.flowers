@@ -88,7 +88,7 @@
 
         function getDetail(id) {
             $.ajax({
-                url: "{{ url('flowerTypes/jsonDetail') }}/" + id,
+                url: "{{ url('/admin/flowerTypes/jsonDetail') }}/" + id,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -134,7 +134,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ url('flowerTypes/jsonDataTableList') }}", // pastikan rutenya valid
+                    url: "{{ url('/admin/flowerTypes/jsonDataTableList') }}", // pastikan rutenya valid
                     type: 'GET'
                 },
                 columns: [{

@@ -8,7 +8,7 @@
                     <h3 class="title-slider text-uppercase">Top Trend</h3>
                     <h2 class="title">2023 Toko Bunga</h2>
                     <p class="desc-content">Kami menydiakan berbagai bunga yang indah </p>
-                    <a href="product-details.html" class="btn flosun-button secondary-btn theme-color  rounded-0">Shop Now</a>
+                    <a href="{{ url('/shop') }}" class="btn flosun-button secondary-btn theme-color  rounded-0">Shop Now</a>
                 </div>
                 <!-- Intro Content End -->
             </div>
@@ -18,7 +18,7 @@
                     <h3 class="title-slider black-slider-title text-uppercase">Collection</h3>
                     <h2 class="title">Bunga dan Lilin <br> Hadiah ulang tahun</h2>
                     <p class="desc-content">Buang untuk hadiah ulang tahun. </p>
-                    <a href="product-details.html" class="btn flosun-button secondary-btn rounded-0">Shop Now</a>
+                    <a href="{{ url('/shop') }}" class="btn flosun-button secondary-btn rounded-0">Shop Now</a>
                 </div>
                 <!-- Intro Content End -->
             </div>

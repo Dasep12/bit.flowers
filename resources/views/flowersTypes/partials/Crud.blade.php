@@ -50,7 +50,7 @@
              var formData = new FormData(form);
              $.ajax({
                  type: "POST",
-                 url: "{{ url('flowerTypes/jsonCrud') }}",
+                 url: "{{ url('/admin/flowerTypes/jsonCrud') }}",
                  beforeSend: function() {
                      $(".btn-submit").attr("disabled", true);
                  },

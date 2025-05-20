@@ -21,7 +21,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png')}}" />
     <!-- plugin css for this page -->
-    <link rel="stylesheet" href=".{{ asset('assets/vendors/lightgallery/css/lightgallery.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/lightgallery/css/lightgallery.css')}}">
     <!-- plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('assets/vendors/iconfonts/simple-line-icon/css/simple-line-icons.css')}}">
 
