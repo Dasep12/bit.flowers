@@ -228,6 +228,114 @@ class FE_HomeController extends Controller
         return view('frontend.product-detail', compact('product', 'itemsFeature', 'images'));
     }
 
+    public function addToCart(Request $request)
+    {
+        $productId = $request->get('product_id');
+        $quantity = $request->get('quantity');
+        $product = DB::table('vw_mst_product')->where('id', $productId)->first();
+        // Ambil gambar dari tbl_mst_catalog, 2 per produk
+        $catalogImages = DB::table('tbl_mst_catalog')
+            ->where('product_id', $product->id)
+            ->select('product_id', 'images')
+            ->orderBy('id', 'desc')
+            ->limit(2)
+            ->pluck('images')
+            ->toArray();
+        // Gabungkan ke produk
+        $product->images = $catalogImages;
+        if (!$product) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Product not found!',
+            ]);
+        }
+        // Simpan ke session
+        $cart = session()->get('cart', []);
+        if (isset($cart[$productId])) {
+            $cart[$productId]['qty'] += $quantity;
+        } else {
+            $cart[$productId] = [
+                'qty' => $quantity,
+                'product_id' => $product->id,
+                'name_product' => $product->name_produk,
+                'price_first' => $product->price_first,
+                'price_final' => $product->price_final,
+                'images' => $product->images[0] ?? '',
+            ];
+        }
+        session()->put('cart', $cart);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product added to cart successfully!',
+        ]);
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        $productId = $request->get('product_id');
+        $cart = session()->get('cart', []);
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
+            session()->put('cart', $cart);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product removed from cart successfully!',
+            ]);
+        }
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Product not found in cart!',
+        ]);
+    }
+
+    public function updateCart(Request $request)
+    {
+        $productIds = $request->input('product_id'); // array
+        $quantities = $request->input('qty');        // array
+
+        $cart = session()->get('cart', []);
+        $updated = false;
+
+        foreach ($productIds as $index => $productId) {
+            if (isset($cart[$productId])) {
+                $cart[$productId]['qty'] = $quantities[$index];
+                $updated = true;
+            }
+        }
+
+
+        if ($updated) {
+            session()->put('cart', $cart);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cart updated successfully!'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'No matching products found in cart!'
+        ]);
+    }
+
+    public function clearCart()
+    {
+        session()->forget('cart');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cart cleared successfully!',
+        ]);
+    }
+
+    public function getCart()
+    {
+        $cart = session()->get('cart');
+        return response()->json([
+            'status' => 'success',
+            'data' => $cart,
+        ]);
+    }
+
 
 
     public function contact()

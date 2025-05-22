@@ -134,3 +134,8 @@ Route::get('/shop', [FE_HomeController::class, 'shop']);
 Route::get('/get-products', [FE_HomeController::class, 'getProducts'])->name('get.products');
 Route::get('/recent-products', [FE_HomeController::class, 'recentProduct']);
 Route::get('/detail-products', [FE_HomeController::class, 'productDetail']);
+Route::post('/cart/add', [FE_HomeController::class, 'addToCart']);
+Route::get('/cart/get', [FE_HomeController::class, 'getCart']);
+Route::get('/cart/clear', [FE_HomeController::class, 'clearCart']);
+Route::post('/cart/remove', [FE_HomeController::class, 'removeFromCart']);
+Route::post('/cart/update', [FE_HomeController::class, 'updateCart']);

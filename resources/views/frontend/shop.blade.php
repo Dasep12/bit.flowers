@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="product-content">
                                     <div class="product-title">
-                                        <h4 class="title-2"> <a href="product-details.html">${ product.name_produk }</a></h4>
+                                        <h4 class="title-2"> <a href="{{ url('detail-products') }}?id=${product.id}">${ product.name_produk }</a></h4>
                                     </div>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>
@@ -324,7 +324,7 @@
                                         `
                                         }
                                     </div>
-                                    <a href="cart.html" class="btn product-cart"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                    <a onclick="addToCart('${product.id}',${ true })" href="javascript:void(0)" class="btn product-cart"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
                                 </div>
                                 <div class="product-content-listview">
                                     <div class="product-title">

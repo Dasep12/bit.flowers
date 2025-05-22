@@ -158,17 +158,19 @@
                                             </select>
                                         </div>
                                     </form> -->
-                                    <div class="quantity-with_btn mb-5">
+                                    <div class="row">
                                         <div class="quantity">
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" value="0" type="text">
+                                                <input id="qty-product" class="cart-plus-minus-box" value="1" type="text">
                                                 <div class="dec qtybutton">-</div>
                                                 <div class="inc qtybutton">+</div>
+                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
                                             </div>
                                         </div>
-                                        <div class="add-to_cart">
-                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Add to cart</a>
-                                            <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="wishlist.html">Add to wishlist</a>
+                                        <div class="add-to_cart mt-3">
+                                            <a class="btn product-cart button-icon flosun-button dark-btn" href="javascript:void(0)">Add to cart</a>
+                                            <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="javascript:void(0)">Add to wishlist</a>
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +189,6 @@
         const data = $(this).data();
 
         // Contoh: tampilkan di console
-        console.log(data);
         // Isi modal (contoh)
         $('#modalProduct .title-product').text(data.name);
         if (data.discount > 0) {
@@ -197,9 +198,82 @@
             $('#first_price').text('Rp ' + Number(data.price_first).toLocaleString());
             $('#final_price del').text('');
         }
+        $('.product-cart').attr('onclick', `addToCart('${data.id}', ${false})`);
         $('#modalProduct #image-prod-modal').attr('src', '{{ asset("assets/images/product") }}/' + data.image1);
-
     });
+
+    function addToCart(id, onlyOne = false) {
+        const qty = $('#qty-product').val();
+        $.ajax({
+            url: "{{ url('cart/add') }}",
+            type: "POST",
+            data: {
+                product_id: id,
+                quantity: onlyOne == true ? 1 : qty,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                getCart()
+                // Update cart count or show success message
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+
+    function getCart() {
+        $.ajax({
+            url: "{{ url('cart/get') }}",
+            type: "GET",
+            success: function(response) {
+                var html = ``;
+                let totalPrice = 0;
+
+                if (response.data == null) {
+                    $("#list-carts").html('<h4 class="text-center">Keranjang Kosong</h4>');
+                    $("#count-cart").html(0);
+                    $("#total-carts").html('Rp. 0');
+                    return;
+                }
+                const countCart = Object.keys(response.data).length;
+                Object.values(response.data).forEach(item => {
+                    const qty = parseFloat(item.qty); // Pastikan qty berupa angka
+                    const harga = parseFloat(item.price_final); // Pastikan harga berupa angka
+                    totalPrice += qty * harga;
+                });
+                $.each(response.data, function(index, item) {
+                    html += `
+                        <div class="single-cart-item">
+                            <div class="cart-img">
+                                <a href=""><img src="{{ asset('assets/images/product') }}/${item.images}" alt=""></a>
+                            </div>
+                            <div class="cart-text">
+                                <h5 class="title"><a href="">${ item.name_product }</a></h5>
+                                <div class="cart-text-btn">
+                                    <div class="cart-qty">
+                                        <span>${ item.qty }×</span>
+                                        <span class="cart-price">Rp. ${ item.price_final.toLocaleString('id-ID').replace(/\./g, ',') }</span>
+                                    </div>
+                                    <button type="button"><i class="ion-trash-b"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                $("#list-carts").html(html);
+                $("#count-cart").html(countCart);
+                $("#total-carts").html('Rp. ' + totalPrice.toLocaleString('id-ID').replace(/\./g, ','));
+                // Update cart count or show success message
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    getCart()
 </script>
 <!-- jQuery Migrate JS -->
 <script src="{{ asset('frontend/assets/js/vendor/jquery-migrate-3.3.2.min.js')}}"></script>
